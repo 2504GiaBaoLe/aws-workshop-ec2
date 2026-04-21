@@ -18,7 +18,7 @@ jobs:
           hugo-version: 'latest'
 
       - name: Build
-        run: hugo
+        run: hugo --minify --baseURL "https://2504giabaole.github.io/aws-workshop-ec2/"
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
