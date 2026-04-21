@@ -1,5 +1,5 @@
-baseURL = "https://workshop-sample.fcjuni.com/"
-relativeURLs = false
+baseURL = "https://2504GiaBaoLe.github.io/aws-workshop-ec2/"
+relativeURLs = true
 canonifyURLs = false
 defaultContentLanguage = "en"
 
