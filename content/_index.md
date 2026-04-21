@@ -29,7 +29,7 @@ chapter: false
 
 &emsp; **Internship Duration:** From 17/04/2026 to 10/07/2026
 
-![Your profile picture](/images/legiabaoav.jpg)
+![Your profile picture](images/legiabaoav.jpg)
 
 ### Report Content
 
