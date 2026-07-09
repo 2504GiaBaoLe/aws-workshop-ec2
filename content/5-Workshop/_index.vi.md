@@ -6,22 +6,16 @@ chapter: false
 pre: " <b> 5. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
+#### Giới thiệu về Mimi Jewelry E-commerce Project
 
-# Đảm bảo truy cập Hybrid an toàn đến S3 bằng cách sử dụng VPC endpoint
+- **Mimi Jewelry E-commerce Project** là một hệ thống website bán hàng được xây dựng theo mô hình serverless trên AWS. Dự án tập trung vào việc triển khai một ứng dụng thương mại điện tử có đầy đủ các chức năng cơ bản như xem sản phẩm, đăng nhập, quản lý giỏ hàng, đặt hàng, thanh toán online, quản lý đơn hàng và upload hình ảnh sản phẩm.
 
-#### Tổng quan
+- Kiến trúc của dự án sử dụng các dịch vụ AWS managed services và serverless services để giảm việc quản lý server thủ công. Thay vì triển khai hệ thống trên EC2 hoặc tự quản lý máy chủ, dự án sử dụng **Amazon S3, Amazon CloudFront, Amazon Cognito, Amazon API Gateway, AWS Lambda, Amazon DynamoDB, Amazon EventBridge, Amazon CloudWatch, Amazon SNS, AWS IAM, AWS SAM, AWS WAF và AWS CloudFormation**.
 
-**AWS PrivateLink** cung cấp kết nối riêng tư đến các dịch vụ aws từ VPCs hoặc trung tâm dữ liệu (on-premise) mà không làm lộ lưu lượng truy cập ra ngoài public internet.
+- Dự án cũng tích hợp **ZaloPay Sandbox** để mô phỏng quy trình thanh toán online. Ngoài ra, hệ thống còn có các tác vụ nền như kiểm tra đơn hàng chưa thanh toán, xử lý hoàn tiền và gửi cảnh báo qua CloudWatch Alarm kết hợp với SNS.
 
-Trong bài lab này, chúng ta sẽ học cách tạo, cấu hình, và kiểm tra VPC endpoints để cho phép workload của bạn tiếp cận các dịch vụ AWS mà không cần đi qua Internet công cộng.
-
-Chúng ta sẽ tạo hai loại endpoints để truy cập đến Amazon S3: gateway vpc endpoint và interface vpc endpoint. Hai loại vpc endpoints này mang đến nhiều lợi ích tùy thuộc vào việc bạn truy cập đến S3 từ môi trường cloud hay từ trung tâm dữ liệu (on-premise).
-+ **Gateway** - Tạo gateway endpoint để gửi lưu lượng đến Amazon S3 hoặc DynamoDB using private IP addresses. Bạn điều hướng lưu lượng từ VPC của bạn đến gateway endpoint bằng các bảng định tuyến (route tables)
-+ **Interface** - Tạo interface endpoint để gửi lưu lượng đến các dịch vụ điểm cuối (endpoints) sử dụng Network Load Balancer để phân phối lưu lượng. Lưu lượng dành cho dịch vụ điểm cuối được resolved bằng DNS.
+- Mục tiêu chính của dự án là xây dựng một hệ thống ecommerce có thể triển khai thật trên AWS, có khả năng mở rộng, dễ vận hành, có monitoring, có CI/CD và phù hợp với định hướng production-like system.
 
 #### Nội dung
 

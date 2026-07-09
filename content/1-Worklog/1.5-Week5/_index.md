@@ -1,57 +1,68 @@
 ---
 title: "Week 5 Worklog"
 date: 2024-01-01
-weight: 1
+weight: 5
 chapter: false
 pre: " <b> 1.5. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
+
 
 
 ### Week 5 Objectives:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Understand the fundamentals of Serverless Computing on AWS.
+* Learn how AWS Lambda, API Gateway, and DynamoDB work together to build serverless applications.
+* Build a simple REST API backend using AWS Serverless services.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
 
+| Day | Task | Start Date | Completion Date | Reference Material |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------- | --------------- | ----------------------------------------- |
+| 2 | * Learn the Serverless Computing model <br> * Understand event-driven architecture <br> * Explore AWS Lambda concepts | 06/18/2026 | 06/18/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| 3 | * Learn AWS Lambda Functions <br> * Configure IAM Role for Lambda <br> * Explore Lambda Triggers (API Gateway, S3, EventBridge, DynamoDB Streams) | 06/19/2026 | 06/19/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| 4 | * Learn Amazon API Gateway <br> * Create REST API resources and methods <br> * Integrate API Gateway with Lambda <br> * Deploy API stages | 06/20/2026 | 06/20/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| 5 | * Learn Amazon DynamoDB <br> * Create tables and configure Partition Keys <br> * Practice CRUD operations using AWS SDK | 06/21/2026 | 06/21/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| 6 | * **Practice:** <br>&emsp; + Build a Serverless REST API <br>&emsp; + Connect API Gateway → Lambda → DynamoDB <br>&emsp; + Test API endpoints using Postman or curl | 06/22/2026 | 06/22/2026 | <https://cloudjourney.awsstudygroup.com/> |
 
 ### Week 5 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Understood the concept of Serverless Computing and its benefits in modern cloud application development.
 
-* Successfully created and configured an AWS Free Tier account.
+* Learned how AWS Lambda executes code without managing servers.
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+* Successfully created and configured AWS Lambda Functions, including:
+  * Runtime configuration
+  * Environment Variables
+  * IAM Execution Role
+  * CloudWatch Logs
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+* Learned how to configure Lambda Triggers from:
+  * Amazon API Gateway
+  * Amazon S3
+  * Amazon EventBridge
+  * DynamoDB Streams
 
-* Used AWS CLI to perform basic operations such as:
+* Successfully created REST APIs using Amazon API Gateway, including:
+  * Resources and Methods
+  * Lambda Integration
+  * Deployment Stages
+  * CORS Configuration
 
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
+* Learned the fundamentals of Amazon DynamoDB:
+  * Table creation
+  * Partition Keys
+  * Items and Attributes
+  * CRUD Operations
+  * Query and Scan
 
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* Connected AWS Lambda with DynamoDB using the AWS SDK to perform data operations.
+
+* Successfully built a Serverless REST API backend supporting:
+  * Create (POST)
+  * Read (GET)
+  * Update (PUT)
+  * Delete (DELETE)
+
+* Gained practical experience integrating API Gateway, Lambda, and DynamoDB into a complete serverless application.
+
+* Improved understanding of building scalable, event-driven, and fully managed applications on AWS.

@@ -10,46 +10,31 @@ pre: " <b> 1.1. </b> "
 
 ### Week 1 Objectives:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Become familiar with the internship environment and the members of the First Cloud Journey (FCJ) program.
+* Gain a general understanding of the AWS Cloud platform and its core service categories.
 
 ### Tasks to be carried out this week:
 | Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 04/11/2026 | 04/11/2026      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 04/12/2026 | 04/12/2026      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 04/13/2026 | 04/13/2026      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 04/14/2026 | 04/15/2026      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 04/15/2026 | 04/15/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Attended the First Cloud Journey program orientation session.                                                                                            | 04/20/2026 | 04/20/2026      |
+| 3   | - Researched the First Cloud Journey program independently through platforms such as Facebook, YouTube, and other online resources.                                              | 04/21/2026 | 04/21/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 4   | - Joined the program's WhatsApp groups and AWS Study Group Vietnam community.<br>- Followed the official YouTube channel.<br>- Interacted and got to know other participants as part of the onboarding experience. | 04/22/2026 | 04/22/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 5   | - Studied the fundamental AWS services.<br>- Read and understood the internship regulations, including workplace conduct, hygiene, attendance, and working hours.                            | 04/23/2026 | 04/23/2026      | https://hcm-rules.awsfcaj.com/ |
+| 6   | - **Practice:** <br>&emsp;+ Completed the first assignment of the program by creating an AWS account.                                                                                     | 04/24../2026 | 04/27/2026      | <https://cloudjourney.awsstudygroup.com/> |
 
 
 ### Week 1 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
+After the first week of the internship, I achieved the following:
+
+* Became familiar with the internship environment, the FCJ team members, and the overall workflow of the program.
+
+* Gained a basic understanding of **Cloud Computing** and the role of **Amazon Web Services (AWS)** in providing cloud infrastructure and services.
+
+* Learned the major categories of AWS services, including:
   * Compute
   * Storage
-  * Networking 
+  * Networking
   * Database
-  * ...
-
-* Successfully created and configured an AWS Free Tier account.
-
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
-
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
-
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+  * Security
+  * Monitor

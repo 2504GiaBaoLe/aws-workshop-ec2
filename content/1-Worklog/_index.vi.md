@@ -13,26 +13,26 @@ pre: " <b> 1. </b> "
 
 Thông thường và cũng là tiêu chuẩn, một worklog được thực hiện trong khoảng 3 tháng (trong suốt thời gian thực tập) với nội dung các tuần như sau:
 
-**Tuần 1:** [Làm quen với AWS và các dịch vụ cơ bản trong AWS](1.1-week1/)
+**Tuần 1:** [Làm quen với môi trường thực tập và các thành viên trong chương trình First Cloud Journey (FCJ)](1.1-week1/)
 
-**Tuần 2:** [Làm công việc A...](1.2-week2/)
+**Tuần 2:** [Hoàn tất việc tạo tài khoản AWS và làm quen với quy trình làm việc với AWS Support](1.2-week2/)
 
-**Tuần 3:** [Làm công việc B...](1.3-week3/)
+**Tuần 3:** [Hiểu các khái niệm cơ bản về mạng (Networking) trên AWS](1.3-week3/)
 
-**Tuần 4:** [Làm công việc C...](1.4-week4/)
+**Tuần 4:** [Hiểu các khái niệm cơ bản về Identity & Security trên nền tảng AWS](1.4-week4/)
 
-**Tuần 5:** [Làm công việc D...](1.5-week5/)
+**Tuần 5:** [Hiểu những kiến thức cơ bản về Serverless Computing trên AWS](1.5-week5/)
 
-**Tuần 6:** [Làm công việc E...](1.6-week6/)
+**Tuần 6:** [Tìm hiểu cách hoạt động của Amazon SQS, Amazon SNS, Amazon EventBridge và AWS Step Functions](1.6-week6/)
 
-**Tuần 7:** [Làm công việc G...](1.7-week7/)
+**Tuần 7:** [Tìm hiểu khái niệm Container và Container Orchestration](1.7-week7/)
 
-**Tuần 8:** [Làm công việc H...](1.8-week8/)
+**Tuần 8:** [Tìm hiểu các dịch vụ giám sát và ghi log trên AWS](1.8-week8/)
 
-**Tuần 9:** [Làm công việc I...](1.9-week9/)
+**Tuần 9:** [Tìm hiểu các dịch vụ mạng nâng cao trên AWS](1.9-week9/)
 
-**Tuần 10:** [Làm công việc L...](1.10-week10/)
+**Tuần 10:** [Tìm hiểu các khái niệm cơ bản về DevOps và CI/CD trên AWS](1.10-week10/)
 
-**Tuần 11:** [Làm công việc M...](1.11-week11/)
+**Tuần 11:** [Tìm hiểu các dịch vụ bảo mật nâng cao trên AWS](1.11-week11/)
 
-**Tuần 12:** [Làm công việc N...](1.12-week12/)
+**Tuần 12:** [Tìm hiểu các phương pháp tối ưu chi phí khi sử dụng AWS, Và hoàn thành project](1.12-week12/)

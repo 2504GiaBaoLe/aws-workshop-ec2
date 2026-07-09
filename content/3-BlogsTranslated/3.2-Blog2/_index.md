@@ -5,122 +5,233 @@ weight: 1
 chapter: false
 pre: " <b> 3.2. </b> "
 ---
+
 {{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
+⚠️ **Note:** The content below is based on my study of the article **"Automated extraction of compressed files on Amazon S3 using AWS Batch and Amazon ECS"** published on the AWS Storage Blog. It represents my personal learning notes and understanding, and should not be copied verbatim for academic or professional reports.
 {{% /notice %}}
 
-# Getting Started with Healthcare Data Lakes: Using Microservices
+# Understanding an Automated File Extraction Architecture on Amazon S3 Using AWS Batch and Amazon ECS
 
-Data lakes can help hospitals and healthcare facilities turn data into business insights, maintain business continuity, and protect patient privacy. A **data lake** is a centralized, managed, and secure repository to store all your data, both in its raw and processed forms for analysis. Data lakes allow you to break down data silos and combine different types of analytics to gain insights and make better business decisions.
+While learning about **AWS Batch**, I came across the article **"Automated extraction of compressed files on Amazon S3 using AWS Batch and Amazon ECS"** on the AWS Storage Blog. What impressed me the most was how AWS designed a fully automated **event-driven** data processing workflow, where compute resources are provisioned only when data actually needs to be processed.
 
-This blog post is part of a larger series on getting started with setting up a healthcare data lake. In my final post of the series, *“Getting Started with Healthcare Data Lakes: Diving into Amazon Cognito”*, I focused on the specifics of using Amazon Cognito and Attribute Based Access Control (ABAC) to authenticate and authorize users in the healthcare data lake solution. In this blog, I detail how the solution evolved at a foundational level, including the design decisions I made and the additional features used. You can access the code samples for the solution in this Git repo for reference.
+Instead of maintaining an Amazon EC2 instance running continuously to monitor and extract compressed files, AWS combines services such as **Amazon S3**, **Amazon EventBridge**, **AWS Batch**, and **Amazon ECS** to create an automated, scalable, and cost-efficient data processing pipeline.
 
----
-
-## Architecture Guidance
-
-The main change since the last presentation of the overall architecture is the decomposition of a single service into a set of smaller services to improve maintainability and flexibility. Integrating a large volume of diverse healthcare data often requires specialized connectors for each format; by keeping them encapsulated separately as microservices, we can add, remove, and modify each connector without affecting the others. The microservices are loosely coupled via publish/subscribe messaging centered in what I call the “pub/sub hub.”
-
-This solution represents what I would consider another reasonable sprint iteration from my last post. The scope is still limited to the ingestion and basic parsing of **HL7v2 messages** formatted in **Encoding Rules 7 (ER7)** through a REST interface.
-
-**The solution architecture is now as follows:**
-
-> *Figure 1. Overall architecture; colored boxes represent distinct services.*
+In this article, I summarize what I learned and explain the architecture from my own perspective.
 
 ---
 
-While the term *microservices* has some inherent ambiguity, certain traits are common:  
-- Small, autonomous, loosely coupled  
-- Reusable, communicating through well-defined interfaces  
-- Specialized to do one thing well  
-- Often implemented in an **event-driven architecture**
+## The Problem
 
-When determining where to draw boundaries between microservices, consider:  
-- **Intrinsic**: technology used, performance, reliability, scalability  
-- **Extrinsic**: dependent functionality, rate of change, reusability  
-- **Human**: team ownership, managing *cognitive load*
+Imagine a company that regularly receives data from multiple business partners.
 
----
+Partners upload large compressed files (such as **`.tar`** archives) to Amazon S3. Each archive may contain thousands of images, documents, or other files that need further processing.
 
-## Technology Choices and Communication Scope
+For example:
 
-| Communication scope                       | Technologies / patterns to consider                                                        |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Within a single microservice              | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Between microservices in a single service | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Between services                          | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
+```text
+backup.tar
 
----
+├── image01.jpg
+├── image02.jpg
+├── image03.jpg
+├── report.csv
+└── ...
+```
 
-## The Pub/Sub Hub
+However, downstream systems can only process individual files rather than an entire TAR archive.
 
-Using a **hub-and-spoke** architecture (or message broker) works well with a small number of tightly related microservices.  
-- Each microservice depends only on the *hub*  
-- Inter-microservice connections are limited to the contents of the published message  
-- Reduces the number of synchronous calls since pub/sub is a one-way asynchronous *push*
+Therefore, an intermediate workflow is required to:
 
-Drawback: **coordination and monitoring** are needed to avoid microservices processing the wrong message.
+- Detect when a new archive is uploaded.
+- Extract the compressed file.
+- Upload the extracted files back to Amazon S3.
+- Allow downstream systems to continue processing the extracted data.
 
----
+With a traditional architecture, an Amazon EC2 instance would need to run continuously to monitor the S3 bucket and perform extraction whenever a new archive appears. This approach increases infrastructure costs and requires ongoing server management.
 
-## Core Microservice
-
-Provides foundational data and communication layer, including:  
-- **Amazon S3** bucket for data  
-- **Amazon DynamoDB** for data catalog  
-- **AWS Lambda** to write messages into the data lake and catalog  
-- **Amazon SNS** topic as the *hub*  
-- **Amazon S3** bucket for artifacts such as Lambda code
-
-> Only allow indirect write access to the data lake through a Lambda function → ensures consistency.
+This is exactly the problem that the AWS Storage Blog architecture aims to solve.
 
 ---
 
-## Front Door Microservice
+## Overall Architecture
 
-- Provides an API Gateway for external REST interaction  
-- Authentication & authorization based on **OIDC** via **Amazon Cognito**  
-- Self-managed *deduplication* mechanism using DynamoDB instead of SNS FIFO because:  
-  1. SNS deduplication TTL is only 5 minutes  
-  2. SNS FIFO requires SQS FIFO  
-  3. Ability to proactively notify the sender that the message is a duplicate  
+From my understanding, the workflow operates as follows:
+
+```text
+Upload TAR File
+        │
+        ▼
+   Amazon S3
+        │
+        ▼
+ Amazon EventBridge
+        │
+        ▼
+    AWS Batch
+        │
+        ▼
+ Amazon ECS Container
+        │
+        ▼
+Download → Extract → Upload
+        │
+        ▼
+ Amazon S3 Output
+```
+
+One of the biggest advantages of this architecture is that **no compute resources remain running continuously**. When no new files are uploaded, no containers or compute environments are provisioned, resulting in significant cost savings.
+
+## Architecture Overview
+
+The following figure illustrates the overall architecture described in the AWS Storage Blog.
+
+<img src="/images/3-Blog/aws-batch-architecture.jpg"
+     alt="AWS Batch Architecture"
+     style="max-width:100%;height:auto;">
+
+This architecture ensures that compute resources are created only when processing jobs are required, making the solution highly scalable and cost-efficient.
 
 ---
 
-## Staging ER7 Microservice
+## Roles of Each AWS Service
 
-- Lambda “trigger” subscribed to the pub/sub hub, filtering messages by attribute  
-- Step Functions Express Workflow to convert ER7 → JSON  
-- Two Lambdas:  
-  1. Fix ER7 formatting (newline, carriage return)  
-  2. Parsing logic  
-- Result or error is pushed back into the pub/sub hub  
+### Amazon S3
+
+Amazon S3 serves as both the input and output storage layer.
+
+When a user uploads a TAR archive, Amazon S3 generates an **Object Created** event, which triggers the entire processing workflow.
+
+After extraction is completed, all resulting files are uploaded back to Amazon S3, either into another bucket or a different folder.
 
 ---
 
-## New Features in the Solution
+### Amazon EventBridge
 
-### 1. AWS CloudFormation Cross-Stack References
-Example *outputs* in the core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+Amazon EventBridge acts as the event orchestration service.
+
+It continuously listens for events generated by Amazon S3. Whenever a new file is uploaded, EventBridge automatically submits an **AWS Batch Job**.
+
+Because of this mechanism, the entire workflow is triggered automatically without requiring manual intervention.
+
+---
+
+### AWS Batch
+
+In my opinion, AWS Batch is the most important component of this architecture.
+
+AWS Batch is responsible for:
+
+- Receiving processing requests.
+- Selecting appropriate compute resources.
+- Provisioning the execution environment.
+- Running the processing container.
+- Releasing resources after the job finishes.
+
+Previously, I thought AWS Batch was mainly designed for Machine Learning or High Performance Computing (HPC). After reading this article, I realized that it is also an excellent solution for large-scale batch data processing workloads.
+
+---
+
+### Amazon ECS
+
+AWS Batch does not directly perform file extraction.
+
+Instead, it launches a Docker container through Amazon ECS.
+
+The container is responsible for:
+
+- Downloading files from Amazon S3.
+- Extracting the archive.
+- Uploading the extracted files back to Amazon S3.
+
+Packaging the entire processing logic inside a container makes the application easier to maintain, update, and deploy across different environments.
+
+---
+
+### Amazon EBS
+
+One interesting detail I learned is that AWS does not extract files directly within Amazon S3.
+
+Instead, the container uses **Amazon EBS** as temporary storage.
+
+The workflow is:
+
+- Download the TAR archive from Amazon S3 to Amazon EBS.
+- Extract the archive on Amazon EBS.
+- Upload the extracted files back to Amazon S3.
+
+Once the AWS Batch Job finishes, both the temporary storage and compute resources are automatically released.
+
+---
+
+## Workflow
+
+From my understanding, the system performs the following steps:
+
+1. A user uploads a TAR archive to Amazon S3.
+2. Amazon S3 generates an **Object Created** event.
+3. Amazon EventBridge receives the event.
+4. EventBridge submits an AWS Batch Job.
+5. AWS Batch provisions the compute environment and launches a container on Amazon ECS.
+6. The container downloads the TAR archive from Amazon S3.
+7. The archive is extracted on Amazon EBS.
+8. The extracted files are uploaded back to Amazon S3.
+9. The AWS Batch Job completes, and all compute and storage resources are automatically released.
+
+---
+
+## Why Use AWS Batch Instead of AWS Lambda?
+
+Initially, I wondered why AWS chose AWS Batch instead of AWS Lambda for this solution.
+
+After studying the architecture, I realized that the primary reason is the size of the workload.
+
+In real-world scenarios, TAR archives can easily reach tens or even hundreds of gigabytes.
+
+For workloads of this size, AWS Lambda encounters several limitations, including:
+
+- Maximum execution time.
+- Temporary storage capacity.
+- Memory and compute limitations.
+
+AWS Batch, on the other hand, can:
+
+- Automatically select appropriate Amazon EC2 instances.
+- Attach additional storage when needed.
+- Handle long-running, resource-intensive workloads.
+- Automatically release resources after the job completes.
+
+This makes AWS Batch a much more suitable solution for large-scale batch processing tasks.
+
+---
+
+## What I Learned
+
+After studying this architecture, I gained several important insights.
+
+First, not every data processing workload is suitable for AWS Lambda. For large datasets or long-running jobs, AWS Batch provides a much more appropriate solution.
+
+Second, an **event-driven** architecture allows the system to consume compute resources only when data is available for processing, significantly reducing operational costs under the **pay-as-you-go** pricing model.
+
+Third, packaging all processing logic inside Docker containers makes future updates and feature enhancements much easier without affecting other components of the system.
+
+In my opinion, this architecture can be applied to many scenarios beyond file extraction, including:
+
+- Bulk image resizing.
+- Video format conversion.
+- CSV-to-Parquet conversion.
+- Log analysis.
+- OCR document processing.
+- AI batch inference.
+- ETL pipelines.
+
+These workloads share the same characteristic: they process data only when new files arrive and often require significant compute resources.
+
+---
+
+## Conclusion
+
+Through studying this AWS Storage Blog article, I gained a much better understanding of how **Amazon S3**, **Amazon EventBridge**, **AWS Batch**, **Amazon ECS**, and **Amazon EBS** can be combined to build a fully automated data processing pipeline.
+
+What I appreciate most about this architecture is its ability to optimize costs through the **pay-as-you-go** model, scale dynamically based on workload demand, and significantly reduce the operational overhead of managing infrastructure.
+
+In the future, I plan to implement this architecture step by step so I can gain a deeper understanding of how these AWS services work together in a real-world solution while improving my hands-on experience with AWS-based data processing systems.

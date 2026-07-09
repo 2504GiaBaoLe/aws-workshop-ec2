@@ -1,57 +1,46 @@
 ---
-title: "Week 10 Worklog"
+title: "Week 10 workbag"
 date: 2024-01-01
-weight: 2
+weight: 10
 chapter: false
 pre: " <b> 1.10. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
 
 ### Week 10 Objectives:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Learn the basic concepts of DevOps and CI/CD on AWS.
+* Explore AWS CodeCommit, CodeBuild, and CodeDeploy.
+* Understand how AWS CodePipeline automates software deployment.
+* Learn the basic concepts of Infrastructure as Code (IaC) using AWS CloudFormation.
+* Practice creating a simple automated deployment pipeline.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
 
+| Day | Task | Start Date | Completion Date | Reference Material |
+| --- | ---- | ---------- | --------------- | ------------------ |
+| 2 | - Learn the concepts of DevOps and CI/CD <br> - Understand the software deployment lifecycle | 06/22/2026 | 06/22/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| 3 | - Learn AWS CodeCommit <br> - Learn AWS CodeBuild <br> - Understand the purpose of each service | 06/23/2026 | 06/23/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| 4 | - Learn AWS CodeDeploy <br> - Learn AWS CodePipeline <br> - Observe how a deployment pipeline works | 06/24/2026 | 06/24/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| 5 | - Learn Infrastructure as Code <br> - Explore AWS CloudFormation <br> - Read simple CloudFormation templates | 06/25/2026 | 06/25/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| 6 | - **Hands-on:** <br>&emsp; + Create a simple CodePipeline <br>&emsp; + Build a sample project <br>&emsp; + Deploy the application automatically | 06/26/2026 | 06/29/2026 | <https://cloudjourney.awsstudygroup.com/> |
 
 ### Week 10 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Learned the basic concepts of DevOps and understood the purpose of CI/CD in modern software development.
 
-* Successfully created and configured an AWS Free Tier account.
+* Understood how continuous integration and continuous deployment help automate software delivery and reduce manual deployment tasks.
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+* Explored AWS CodeCommit and learned that it provides a Git-based repository for storing source code.
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+* Learned the role of AWS CodeBuild and understood how it automatically builds source code after changes are committed.
 
-* Used AWS CLI to perform basic operations such as:
+* Explored AWS CodeDeploy and learned how it helps deploy applications to AWS resources.
 
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
+* Learned the basic workflow of AWS CodePipeline and understood how different AWS services can be connected into a deployment pipeline.
 
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* Read and explored simple AWS CloudFormation templates to understand how infrastructure can be defined as code.
+
+* Practiced creating a simple deployment pipeline and observed how source code changes can automatically trigger the build and deployment process.
+
+* After completing the hands-on exercises, I had a better understanding of how AWS DevOps services work together to automate application deployment.

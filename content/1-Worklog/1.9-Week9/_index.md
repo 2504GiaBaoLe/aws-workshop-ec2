@@ -1,57 +1,45 @@
 ---
 title: "Week 9 Worklog"
 date: 2024-01-01
-weight: 1
+weight: 9
 chapter: false
 pre: " <b> 1.9. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
 
 
 ### Week 9 Objectives:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Learn advanced networking services on AWS.
+* Understand how multiple VPCs can communicate with each other.
+* Learn the basic concepts of AWS Direct Connect.
+* Explore Amazon CloudFront and how a Content Delivery Network (CDN) works.
+* Practice building a simple global application architecture using AWS networking services.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
 
+| Day | Task | Start Date | Completion Date | Reference Material |
+| --- | ---- | ---------- | --------------- | ------------------ |
+| 2 | - Learn Amazon VPC Peering <br> - Learn AWS Transit Gateway <br> - Compare VPC Peering and Transit Gateway | 06/15/2026 | 06/15/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| 3 | - Learn AWS Direct Connect <br> - Understand its purpose and common use cases | 06/16/2026 | 06/16/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| 4 | - Learn Amazon CloudFront <br>&emsp; + Distribution <br>&emsp; + Edge Locations <br>&emsp; + Cache Behavior | 06/17/2026 | 06/17/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| 5 | - Practice creating a CloudFront Distribution <br> - Connect CloudFront with an S3 Bucket or a Web Server | 06/18/2026 | 06/18/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| 6 | - **Hands-on:** <br>&emsp; + Do not anything | 06/20/2026 | 06/20/2026 | <https://cloudjourney.awsstudygroup.com/> |
 
 ### Week 9 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Learned the purpose of advanced AWS networking services and when they are commonly used.
 
-* Successfully created and configured an AWS Free Tier account.
+* Studied Amazon VPC Peering and understood how two VPCs can communicate with each other through a private network connection.
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+* Compared Amazon VPC Peering and AWS Transit Gateway, and learned that Transit Gateway is more suitable when connecting multiple VPCs in a large environment.
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+* Learned the basic concepts of AWS Direct Connect and understood that it provides a dedicated network connection between an on-premises environment and AWS.
 
-* Used AWS CLI to perform basic operations such as:
+* Understood why AWS Direct Connect is often used in enterprise environments that require stable connectivity, lower latency, and higher bandwidth.
 
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
+* Explored Amazon CloudFront and learned how a Content Delivery Network (CDN) helps deliver content faster through Edge Locations around the world.
 
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* Observed how CloudFront caches content at Edge Locations to reduce response time and improve the user experience.
+
+
+* After completing the hands-on exercises, I gained a better understanding of how AWS networking services work together to improve connectivity, application performance, and content delivery.

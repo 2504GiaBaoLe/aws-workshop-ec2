@@ -5,122 +5,148 @@ weight: 1
 chapter: false
 pre: " <b> 3.1. </b> "
 ---
+
 {{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
+⚠️ **Lưu ý:** Nội dung dưới đây được viết dựa trên quá trình tự nghiên cứu và tìm hiểu Amazon CloudWatch. Đây là ghi chú học tập và góc nhìn cá nhân, không phải tài liệu chính thức của AWS.
 {{% /notice %}}
 
-# Bắt đầu với healthcare data lakes: Sử dụng microservices
+# Đừng chỉ bật CloudWatch rồi để đó
+## Biến Monitoring thành "lá chắn" chủ động cho hệ thống
 
-Các data lake có thể giúp các bệnh viện và cơ sở y tế chuyển dữ liệu thành những thông tin chi tiết về doanh nghiệp và duy trì hoạt động kinh doanh liên tục, đồng thời bảo vệ quyền riêng tư của bệnh nhân. **Data lake** là một kho lưu trữ tập trung, được quản lý và bảo mật để lưu trữ tất cả dữ liệu của bạn, cả ở dạng ban đầu và đã xử lý để phân tích. data lake cho phép bạn chia nhỏ các kho chứa dữ liệu và kết hợp các loại phân tích khác nhau để có được thông tin chi tiết và đưa ra các quyết định kinh doanh tốt hơn.
+Trong quá trình tìm hiểu về **Amazon CloudWatch**, mình nhận ra rằng nhiều người chỉ xem CloudWatch như một công cụ để theo dõi CPU hoặc gửi email khi máy chủ gặp sự cố. Tuy nhiên, sau khi đọc tài liệu và thử tìm hiểu sâu hơn, mình nhận thấy CloudWatch có thể làm được nhiều hơn thế.
 
-Bài đăng trên blog này là một phần của loạt bài lớn hơn về việc bắt đầu cài đặt data lake dành cho lĩnh vực y tế. Trong bài đăng blog cuối cùng của tôi trong loạt bài, *“Bắt đầu với data lake dành cho lĩnh vực y tế: Đào sâu vào Amazon Cognito”*, tôi tập trung vào các chi tiết cụ thể của việc sử dụng Amazon Cognito và Attribute Based Access Control (ABAC) để xác thực và ủy quyền người dùng trong giải pháp data lake y tế. Trong blog này, tôi trình bày chi tiết cách giải pháp đã phát triển ở cấp độ cơ bản, bao gồm các quyết định thiết kế mà tôi đã đưa ra và các tính năng bổ sung được sử dụng. Bạn có thể truy cập các code samples cho giải pháp tại Git repo này để tham khảo.
+Nếu biết cách kết hợp **Metrics**, **Logs**, **Dashboards** và **Alarms**, CloudWatch không chỉ giúp quan sát hệ thống mà còn trở thành một trung tâm giám sát chủ động, có khả năng phát hiện sự cố trước khi người dùng cuối nhận ra.
 
----
+## Kiến trúc tổng quan
 
-## Hướng dẫn kiến trúc
+Hình dưới đây minh họa cách Amazon CloudWatch thu thập Metrics, Logs và Events từ nhiều dịch vụ AWS, sau đó kích hoạt Alarm và các hành động tự động.
 
-Thay đổi chính kể từ lần trình bày cuối cùng của kiến trúc tổng thể là việc tách dịch vụ đơn lẻ thành một tập hợp các dịch vụ nhỏ để cải thiện khả năng bảo trì và tính linh hoạt. Việc tích hợp một lượng lớn dữ liệu y tế khác nhau thường yêu cầu các trình kết nối chuyên biệt cho từng định dạng; bằng cách giữ chúng được đóng gói riêng biệt với microservices, chúng ta có thể thêm, xóa và sửa đổi từng trình kết nối mà không ảnh hưởng đến những kết nối khác. Các microservices được kết nối rời thông qua tin nhắn publish/subscribe tập trung trong cái mà tôi gọi là “pub/sub hub”.
-
-Giải pháp này đại diện cho những gì tôi sẽ coi là một lần lặp nước rút hợp lý khác từ last post của tôi. Phạm vi vẫn được giới hạn trong việc nhập và phân tích cú pháp đơn giản của các **HL7v2 messages** được định dạng theo **Quy tắc mã hóa 7 (ER7)** thông qua giao diện REST.
-
-**Kiến trúc giải pháp bây giờ như sau:**
-
-> *Hình 1. Kiến trúc tổng thể; những ô màu thể hiện những dịch vụ riêng biệt.*
+<img src="/images/3-Blog/cloudwatch-overview.jpg"
+     alt="Amazon CloudWatch Overview"
+     style="max-width:100%;height:auto;">
 
 ---
 
-Mặc dù thuật ngữ *microservices* có một số sự mơ hồ cố hữu, một số đặc điểm là chung:  
-- Chúng nhỏ, tự chủ, kết hợp rời rạc  
-- Có thể tái sử dụng, giao tiếp thông qua giao diện được xác định rõ  
-- Chuyên biệt để giải quyết một việc  
-- Thường được triển khai trong **event-driven architecture**
+## CloudWatch thực sự là gì?
 
-Khi xác định vị trí tạo ranh giới giữa các microservices, cần cân nhắc:  
-- **Nội tại**: công nghệ được sử dụng, hiệu suất, độ tin cậy, khả năng mở rộng  
-- **Bên ngoài**: chức năng phụ thuộc, tần suất thay đổi, khả năng tái sử dụng  
-- **Con người**: quyền sở hữu nhóm, quản lý *cognitive load*
+Amazon CloudWatch là dịch vụ **Monitoring & Observability** của AWS.
 
----
+Nhiệm vụ chính của CloudWatch là thu thập dữ liệu từ các dịch vụ AWS như:
 
-## Lựa chọn công nghệ và phạm vi giao tiếp
+- Amazon EC2
+- AWS Lambda
+- Amazon RDS
+- Amazon ECS
+- Amazon API Gateway
+- Amazon DynamoDB
+- ...
 
-| Phạm vi giao tiếp                        | Các công nghệ / mô hình cần xem xét                                                        |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Trong một microservice                   | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Giữa các microservices trong một dịch vụ | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Giữa các dịch vụ                         | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
+Sau khi thu thập dữ liệu, CloudWatch sẽ:
 
----
+- Lưu trữ Metrics
+- Thu thập Logs
+- Hiển thị Dashboard
+- Tạo Alarm khi hệ thống có dấu hiệu bất thường
 
-## The pub/sub hub
+Theo góc nhìn của mình, CloudWatch giúp trả lời ba câu hỏi quan trọng:
 
-Việc sử dụng kiến trúc **hub-and-spoke** (hay message broker) hoạt động tốt với một số lượng nhỏ các microservices liên quan chặt chẽ.  
-- Mỗi microservice chỉ phụ thuộc vào *hub*  
-- Kết nối giữa các microservice chỉ giới hạn ở nội dung của message được xuất  
-- Giảm số lượng synchronous calls vì pub/sub là *push* không đồng bộ một chiều
-
-Nhược điểm: cần **phối hợp và giám sát** để tránh microservice xử lý nhầm message.
+- Hệ thống đang hoạt động như thế nào?
+- Có sự cố nào đang xảy ra không?
+- Nếu có thì hệ thống nên phản ứng như thế nào?
 
 ---
 
-## Core microservice
+## Đừng chỉ theo dõi CPU
 
-Cung cấp dữ liệu nền tảng và lớp truyền thông, gồm:  
-- **Amazon S3** bucket cho dữ liệu  
-- **Amazon DynamoDB** cho danh mục dữ liệu  
-- **AWS Lambda** để ghi message vào data lake và danh mục  
-- **Amazon SNS** topic làm *hub*  
-- **Amazon S3** bucket cho artifacts như mã Lambda
+Đây là điều mình thấy khá nhiều người mắc phải khi mới sử dụng CloudWatch.
 
-> Chỉ cho phép truy cập ghi gián tiếp vào data lake qua hàm Lambda → đảm bảo nhất quán.
+Thông thường chúng ta chỉ tạo Alarm khi CPU vượt 80%.
 
----
+Thực tế CPU chỉ phản ánh một phần của hệ thống.
 
-## Front door microservice
+Theo mình, một Dashboard hiệu quả nên theo dõi đồng thời nhiều Metrics như:
 
-- Cung cấp API Gateway để tương tác REST bên ngoài  
-- Xác thực & ủy quyền dựa trên **OIDC** thông qua **Amazon Cognito**  
-- Cơ chế *deduplication* tự quản lý bằng DynamoDB thay vì SNS FIFO vì:
-  1. SNS deduplication TTL chỉ 5 phút
-  2. SNS FIFO yêu cầu SQS FIFO
-  3. Chủ động báo cho sender biết message là bản sao
+- CPU Utilization
+- Memory Usage
+- Disk Space
+- Network In / Out
+- Request Count
+- Error Rate
+- Response Time (Latency)
+
+Khi các Metrics được đặt cạnh nhau, việc xác định nguyên nhân gốc sẽ dễ dàng hơn rất nhiều thay vì chỉ biết rằng "server đang chậm".
 
 ---
 
-## Staging ER7 microservice
+## Metrics cho biết điều gì xảy ra, Logs giải thích vì sao
 
-- Lambda “trigger” đăng ký với pub/sub hub, lọc message theo attribute  
-- Step Functions Express Workflow để chuyển ER7 → JSON  
-- Hai Lambda:
-  1. Sửa format ER7 (newline, carriage return)
-  2. Parsing logic  
-- Kết quả hoặc lỗi được đẩy lại vào pub/sub hub
+Sau khi đọc tài liệu AWS, mình thấy đây là điểm khá thú vị.
+
+Metrics chỉ cho biết hệ thống đang gặp vấn đề.
+
+Logs mới là nơi giúp tìm ra nguyên nhân.
+
+Ví dụ:
+
+- Error Rate tăng.
+- Dashboard hiển thị Latency tăng cao.
+- CloudWatch Logs cho thấy truy vấn Database bị Timeout.
+
+Nhờ tập trung toàn bộ Logs của EC2, Lambda và ứng dụng về một nơi, việc phân tích lỗi sẽ nhanh hơn nhiều so với việc đăng nhập SSH vào từng máy chủ.
 
 ---
 
-## Tính năng mới trong giải pháp
+## Alarm không chỉ dùng để gửi Email
 
-### 1. AWS CloudFormation cross-stack references
-Ví dụ *outputs* trong core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+Trước đây mình nghĩ Alarm chỉ dùng để gửi Email.
+
+Sau khi tìm hiểu thêm thì CloudWatch Alarm còn có thể kích hoạt rất nhiều hành động tự động như:
+
+- Gửi Email bằng Amazon SNS.
+- Tự động Scale EC2 thông qua Auto Scaling.
+- Kích hoạt AWS Lambda.
+- Chạy Systems Manager Automation.
+
+Điều này giúp hệ thống có thể phản ứng gần như ngay lập tức khi có sự cố.
+
+---
+
+## Góc nhìn thực tế
+
+Giả sử một website thương mại điện tử chuẩn bị diễn ra Flash Sale.
+
+Lượng truy cập tăng gấp nhiều lần.
+
+CloudWatch phát hiện:
+
+- CPU Utilization tăng cao.
+- Request Latency tăng.
+- Error Rate bắt đầu xuất hiện.
+
+Ngay lập tức:
+
+- CloudWatch Alarm được kích hoạt.
+- Auto Scaling tạo thêm EC2.
+- Dashboard cập nhật theo thời gian thực.
+- Amazon SNS gửi cảnh báo đến đội vận hành.
+
+Theo mình, đây chính là giá trị lớn nhất của Monitoring.
+
+Nếu không có CloudWatch thì rất có thể khách hàng sẽ là người đầu tiên phát hiện website gặp lỗi.
+
+---
+
+## Điều mình rút ra sau khi tìm hiểu
+
+Sau khi nghiên cứu Amazon CloudWatch, mình nhận thấy đây không chỉ là công cụ theo dõi tài nguyên.
+
+Khi kết hợp:
+
+- Metrics
+- Logs
+- Dashboards
+- Alarms
+
+CloudWatch trở thành một hệ thống giám sát chủ động, giúp phát hiện sớm sự cố, tự động phản ứng và giảm đáng kể thời gian xử lý.
+
+Theo quan điểm của mình, một hệ thống Monitoring tốt không phải là biết hệ thống đã lỗi, mà là phát hiện và xử lý vấn đề trước khi người dùng nhận ra.

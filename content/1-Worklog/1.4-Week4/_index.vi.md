@@ -1,59 +1,54 @@
 ---
 title: "Worklog Tuần 4"
 date: 2024-01-01
-weight: 1
+weight: 4
 chapter: false
 pre: " <b> 1.4. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
+
 
 
 ### Mục tiêu tuần 4:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Hiểu các khái niệm cơ bản về Identity & Security trên nền tảng AWS.
+* Tìm hiểu cách AWS Identity and Access Management (IAM) quản lý danh tính và quyền truy cập.
+* Nắm được chức năng của IAM Users, Groups, Roles, Policies và Permissions.
+* Thực hành thiết lập xác thực đa yếu tố (Multi-Factor Authentication - MFA) để tăng cường bảo mật tài khoản AWS.
+* Xây dựng và quản lý môi trường nhiều người dùng theo các nguyên tắc bảo mật của AWS.
 
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Tìm hiểu tổng quan về Identity & Security trên AWS.<br>- Nghiên cứu mô hình **Shared Responsibility Model** và các khái niệm cơ bản về IAM.                                                                                             | 11/05/2026   | 11/05/2026      |
+| 3   | - Tìm hiểu AWS Identity and Access Management (IAM).<br>- Nghiên cứu các thành phần gồm IAM User, IAM Group, IAM Role, IAM Policy và Permissions.                                          | 12/05/2026   | 12/05/2026      | https://000004.awsstudygroup.com/ |
+| 4   | - Thực hành tạo IAM User và IAM Group.<br>- Gán quyền bằng AWS Managed Policies và Inline Policies.<br>- Kiểm tra quyền truy cập của từng người dùng. | 13/05/2026   | 13/05/2026      | https://000004.awsstudygroup.com/ |
+| 5   | - Thiết lập xác thực đa yếu tố (MFA).<br>- Tìm hiểu nguyên tắc **Least Privilege** và các Best Practices của IAM.<br>- Cấu hình Password Policy để tăng cường bảo mật tài khoản.                  | 14/05/2026   | 14/05/2026      | https://000004.awsstudygroup.com/ |
+| 6   | - **Thực hành:** <br>&emsp;+ Tạo môi trường nhiều người dùng (Secure Multi-user Environment).<br>&emsp;+ Tạo IAM Role cho các dịch vụ AWS.<br>&emsp;+ Kiểm tra quyền truy cập bằng AWS Management Console và AWS CLI.<br>&emsp;+ Thực hành phân quyền và kiểm thử quyền truy cập giữa các người dùng.                                                                                          | 15/05/2026   | 15/05/2026      | https://000004.awsstudygroup.com/ |
 
 
 ### Kết quả đạt được tuần 4:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Hiểu được các khái niệm cơ bản về Identity & Security trên AWS cũng như mô hình **Shared Responsibility Model**.
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+* Nắm được cách AWS Identity and Access Management (IAM) quản lý danh tính và quyền truy cập.
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
+* Hiểu được chức năng và cách sử dụng của các thành phần trong IAM, bao gồm:
+  * IAM User
+  * IAM Group
+  * IAM Role
+  * IAM Policy
+  * Permissions
 
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
+* Tạo và quản lý thành công IAM User, IAM Group và phân quyền cho người dùng thông qua AWS Managed Policies và Inline Policies.
 
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
+* Hiểu và áp dụng nguyên tắc **Least Privilege** trong việc cấp quyền cho người dùng và tài nguyên AWS.
 
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
+* Thiết lập thành công xác thực đa yếu tố (Multi-Factor Authentication - MFA) nhằm tăng cường bảo mật cho tài khoản AWS.
 
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
+* Thực hành tạo IAM Role cho các dịch vụ AWS và hiểu cách sử dụng quyền truy cập tạm thời (Temporary Credentials).
 
+* Xây dựng môi trường AWS có nhiều người dùng với các mức quyền truy cập khác nhau, đáp ứng yêu cầu bảo mật và quản lý truy cập.
 
+* Kiểm tra và xác minh quyền truy cập của người dùng thông qua cả AWS Management Console và AWS CLI.
+
+* Nâng cao kỹ năng quản lý danh tính, phân quyền và bảo vệ tài nguyên AWS theo các khuyến nghị bảo mật và Best Practices của AWS.

@@ -7,121 +7,209 @@ pre: " <b> 3.3. </b> "
 ---
 
 {{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
+⚠️ **Lưu ý:** Nội dung dưới đây được tổng hợp từ quá trình tìm hiểu bài viết **"How to get started with security response automation on AWS"** trên AWS Security Blog. Đây là ghi chú học tập và góc nhìn cá nhân, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn.
 {{% /notice %}}
 
-# Bắt đầu với healthcare data lakes: Sử dụng microservices
+# Tìm hiểu kiến trúc tự động hóa phản ứng sự cố bảo mật trên AWS
 
-Các data lake có thể giúp các bệnh viện và cơ sở y tế chuyển dữ liệu thành những thông tin chi tiết về doanh nghiệp và duy trì hoạt động kinh doanh liên tục, đồng thời bảo vệ quyền riêng tư của bệnh nhân. **Data lake** là một kho lưu trữ tập trung, được quản lý và bảo mật để lưu trữ tất cả dữ liệu của bạn, cả ở dạng ban đầu và đã xử lý để phân tích. data lake cho phép bạn chia nhỏ các kho chứa dữ liệu và kết hợp các loại phân tích khác nhau để có được thông tin chi tiết và đưa ra các quyết định kinh doanh tốt hơn.
+Trong quá trình tìm hiểu về các dịch vụ bảo mật trên AWS, mình đã đọc bài viết **"How to get started with security response automation on AWS"** trên AWS Security Blog. Điều khiến mình ấn tượng nhất là cách AWS xây dựng một quy trình **Security Response Automation** theo mô hình **event-driven**, cho phép hệ thống tự động phát hiện và xử lý các sự cố bảo mật ngay khi chúng xảy ra.
 
-Bài đăng trên blog này là một phần của loạt bài lớn hơn về việc bắt đầu cài đặt data lake dành cho lĩnh vực y tế. Trong bài đăng blog cuối cùng của tôi trong loạt bài, *“Bắt đầu với data lake dành cho lĩnh vực y tế: Đào sâu vào Amazon Cognito”*, tôi tập trung vào các chi tiết cụ thể của việc sử dụng Amazon Cognito và Attribute Based Access Control (ABAC) để xác thực và ủy quyền người dùng trong giải pháp data lake y tế. Trong blog này, tôi trình bày chi tiết cách giải pháp đã phát triển ở cấp độ cơ bản, bao gồm các quyết định thiết kế mà tôi đã đưa ra và các tính năng bổ sung được sử dụng. Bạn có thể truy cập các code samples cho giải pháp tại Git repo này để tham khảo.
+Thay vì đội ngũ vận hành phải liên tục theo dõi cảnh báo, xác minh nguyên nhân và thực hiện các bước khắc phục thủ công, AWS kết hợp nhiều dịch vụ như **AWS CloudTrail**, **Amazon EventBridge**, **AWS Lambda**, **AWS Systems Manager** và **Amazon SNS** để tạo thành một pipeline phản ứng tự động. Điều này giúp giảm đáng kể thời gian xử lý sự cố, tăng khả năng phản ứng theo thời gian thực và nâng cao mức độ bảo mật cho toàn bộ hệ thống.
 
----
-
-## Hướng dẫn kiến trúc
-
-Thay đổi chính kể từ lần trình bày cuối cùng của kiến trúc tổng thể là việc tách dịch vụ đơn lẻ thành một tập hợp các dịch vụ nhỏ để cải thiện khả năng bảo trì và tính linh hoạt. Việc tích hợp một lượng lớn dữ liệu y tế khác nhau thường yêu cầu các trình kết nối chuyên biệt cho từng định dạng; bằng cách giữ chúng được đóng gói riêng biệt với microservices, chúng ta có thể thêm, xóa và sửa đổi từng trình kết nối mà không ảnh hưởng đến những kết nối khác. Các microservices được kết nối rời thông qua tin nhắn publish/subscribe tập trung trong cái mà tôi gọi là “pub/sub hub”.
-
-Giải pháp này đại diện cho những gì tôi sẽ coi là một lần lặp nước rút hợp lý khác từ last post của tôi. Phạm vi vẫn được giới hạn trong việc nhập và phân tích cú pháp đơn giản của các **HL7v2 messages** được định dạng theo **Quy tắc mã hóa 7 (ER7)** thông qua giao diện REST.
-
-**Kiến trúc giải pháp bây giờ như sau:**
-
-> *Hình 1. Kiến trúc tổng thể; những ô màu thể hiện những dịch vụ riêng biệt.*
+Trong bài viết này, mình sẽ tổng hợp lại những gì đã học được và giải thích kiến trúc theo cách mình hiểu.
 
 ---
 
-Mặc dù thuật ngữ *microservices* có một số sự mơ hồ cố hữu, một số đặc điểm là chung:  
-- Chúng nhỏ, tự chủ, kết hợp rời rạc  
-- Có thể tái sử dụng, giao tiếp thông qua giao diện được xác định rõ  
-- Chuyên biệt để giải quyết một việc  
-- Thường được triển khai trong **event-driven architecture**
+## Bài toán đặt ra
 
-Khi xác định vị trí tạo ranh giới giữa các microservices, cần cân nhắc:  
-- **Nội tại**: công nghệ được sử dụng, hiệu suất, độ tin cậy, khả năng mở rộng  
-- **Bên ngoài**: chức năng phụ thuộc, tần suất thay đổi, khả năng tái sử dụng  
-- **Con người**: quyền sở hữu nhóm, quản lý *cognitive load*
+Trong một hệ thống AWS, rất nhiều sự kiện có thể ảnh hưởng trực tiếp đến mức độ an toàn của môi trường vận hành.
 
----
+Ví dụ:
 
-## Lựa chọn công nghệ và phạm vi giao tiếp
+- AWS CloudTrail bị vô hiệu hóa.
+- Security Group được cấu hình mở toàn bộ Internet.
+- Amazon S3 Bucket được đặt ở chế độ Public.
+- IAM Access Key được tạo hoặc sử dụng bất thường.
+- Xuất hiện các cảnh báo từ Amazon GuardDuty hoặc AWS Config.
 
-| Phạm vi giao tiếp                        | Các công nghệ / mô hình cần xem xét                                                        |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Trong một microservice                   | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Giữa các microservices trong một dịch vụ | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Giữa các dịch vụ                         | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
+Nếu những sự kiện này không được xử lý kịp thời, chúng có thể tạo ra các lỗ hổng bảo mật hoặc làm tăng nguy cơ bị tấn công.
+
+Theo cách triển khai truyền thống, đội ngũ Security sẽ nhận cảnh báo, tiến hành điều tra nguyên nhân rồi mới thực hiện các bước khắc phục. Quy trình này phụ thuộc nhiều vào con người và thường mất khá nhiều thời gian.
+
+AWS đề xuất một hướng tiếp cận khác: **tự động hóa toàn bộ quy trình phản ứng sự cố**, giúp hệ thống có thể xử lý ngay khi sự kiện được phát hiện.
 
 ---
 
-## The pub/sub hub
+## Kiến trúc tổng thể
 
-Việc sử dụng kiến trúc **hub-and-spoke** (hay message broker) hoạt động tốt với một số lượng nhỏ các microservices liên quan chặt chẽ.  
-- Mỗi microservice chỉ phụ thuộc vào *hub*  
-- Kết nối giữa các microservice chỉ giới hạn ở nội dung của message được xuất  
-- Giảm số lượng synchronous calls vì pub/sub là *push* không đồng bộ một chiều
+Theo cách mình hiểu, toàn bộ quy trình hoạt động theo mô hình sau:
 
-Nhược điểm: cần **phối hợp và giám sát** để tránh microservice xử lý nhầm message.
+```text
+Security Event
+        │
+        ▼
+CloudTrail / GuardDuty / AWS Config
+        │
+        ▼
+Amazon EventBridge
+        │
+        ▼
+AWS Lambda
+        │
+        ▼
+AWS Systems Manager Automation
+        │
+        ▼
+Remediation + Amazon SNS Notification
+```
+
+Điểm nổi bật của kiến trúc này là **workflow chỉ được kích hoạt khi có sự kiện bảo mật xảy ra**. Điều này vừa giúp tối ưu tài nguyên vừa đảm bảo hệ thống có thể phản ứng gần như theo thời gian thực.
+
+Hình dưới đây minh họa kiến trúc Security Response Automation được AWS đề xuất.
+
+<img src="/images/3-Blog/security-response-architecture.jpg"
+     alt="Security Response Automation Architecture"
+     style="max-width:100%;height:auto;">
+
+
+--- 
+
+## Vai trò của từng dịch vụ
+
+### AWS CloudTrail
+
+AWS CloudTrail ghi lại toàn bộ hoạt động API diễn ra trong tài khoản AWS.
+
+Đây là nguồn dữ liệu quan trọng giúp phát hiện các hành động bất thường như:
+
+- Xóa hoặc vô hiệu hóa CloudTrail.
+- Thay đổi IAM Policy.
+- Chỉnh sửa Security Group.
+- Thay đổi cấu hình Amazon S3.
+
+CloudTrail đóng vai trò là nguồn sự kiện đầu vào cho toàn bộ hệ thống Security Response Automation.
 
 ---
 
-## Core microservice
+### Amazon EventBridge
 
-Cung cấp dữ liệu nền tảng và lớp truyền thông, gồm:  
-- **Amazon S3** bucket cho dữ liệu  
-- **Amazon DynamoDB** cho danh mục dữ liệu  
-- **AWS Lambda** để ghi message vào data lake và danh mục  
-- **Amazon SNS** topic làm *hub*  
-- **Amazon S3** bucket cho artifacts như mã Lambda
+Amazon EventBridge là thành phần điều phối sự kiện của hệ thống.
 
-> Chỉ cho phép truy cập ghi gián tiếp vào data lake qua hàm Lambda → đảm bảo nhất quán.
+Dịch vụ này liên tục lắng nghe các sự kiện được phát sinh từ:
 
----
+- AWS CloudTrail
+- Amazon GuardDuty
+- AWS Config
+- AWS Security Hub
 
-## Front door microservice
-
-- Cung cấp API Gateway để tương tác REST bên ngoài  
-- Xác thực & ủy quyền dựa trên **OIDC** thông qua **Amazon Cognito**  
-- Cơ chế *deduplication* tự quản lý bằng DynamoDB thay vì SNS FIFO vì:
-  1. SNS deduplication TTL chỉ 5 phút
-  2. SNS FIFO yêu cầu SQS FIFO
-  3. Chủ động báo cho sender biết message là bản sao
+Khi phát hiện một sự kiện phù hợp với các Rule đã được cấu hình, EventBridge sẽ tự động kích hoạt workflow xử lý mà không cần bất kỳ thao tác thủ công nào.
 
 ---
 
-## Staging ER7 microservice
+### AWS Lambda
 
-- Lambda “trigger” đăng ký với pub/sub hub, lọc message theo attribute  
-- Step Functions Express Workflow để chuyển ER7 → JSON  
-- Hai Lambda:
-  1. Sửa format ER7 (newline, carriage return)
-  2. Parsing logic  
-- Kết quả hoặc lỗi được đẩy lại vào pub/sub hub
+AWS Lambda chịu trách nhiệm thực hiện các hành động khắc phục tự động.
+
+Tùy theo từng loại sự cố, Lambda có thể:
+
+- Bật lại AWS CloudTrail.
+- Thu hồi IAM Access Key.
+- Cập nhật Security Group.
+- Chỉnh sửa Bucket Policy.
+- Gọi AWS Systems Manager Automation để xử lý các quy trình phức tạp hơn.
+
+Theo mình, Lambda chính là "bộ não" của toàn bộ kiến trúc vì nơi đây chứa logic xử lý cho từng tình huống bảo mật.
 
 ---
 
-## Tính năng mới trong giải pháp
+### AWS Systems Manager
 
-### 1. AWS CloudFormation cross-stack references
-Ví dụ *outputs* trong core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+AWS Systems Manager được sử dụng khi quá trình khắc phục yêu cầu nhiều bước hoặc cần thực hiện trên nhiều tài nguyên khác nhau.
+
+Ví dụ:
+
+- Cách ly một Amazon EC2 Instance nghi ngờ bị tấn công.
+- Thực hiện Automation Runbook.
+- Khôi phục cấu hình chuẩn.
+- Chạy các quy trình Remediation nhiều bước.
+
+Việc sử dụng Systems Manager giúp các workflow xử lý trở nên nhất quán và dễ bảo trì hơn.
+
+---
+
+### Amazon SNS
+
+Sau khi quá trình khắc phục hoàn tất, Amazon SNS sẽ gửi thông báo đến đội ngũ vận hành.
+
+Thông báo có thể được gửi qua:
+
+- Email.
+- SMS.
+- HTTP Endpoint.
+- Các Subscriber khác.
+
+Điều này giúp đội ngũ Security nắm được tình trạng hệ thống và tiếp tục kiểm tra nếu cần thiết.
+
+---
+
+## Luồng hoạt động
+
+Theo cách mình hiểu, toàn bộ hệ thống hoạt động theo các bước sau:
+
+1. Một sự kiện bảo mật phát sinh trong môi trường AWS.
+2. AWS CloudTrail, Amazon GuardDuty hoặc AWS Config ghi nhận sự kiện.
+3. Amazon EventBridge nhận được sự kiện.
+4. EventBridge kích hoạt AWS Lambda.
+5. AWS Lambda hoặc AWS Systems Manager Automation thực hiện các bước khắc phục.
+6. Amazon SNS gửi thông báo đến đội ngũ Security.
+7. Toàn bộ quy trình hoàn thành chỉ trong vài giây mà không cần thao tác thủ công.
+
+---
+
+## Tại sao nên tự động hóa Security Response?
+
+Ban đầu mình nghĩ việc gửi cảnh báo qua email là đủ để đội ngũ vận hành xử lý sự cố.
+
+Tuy nhiên, sau khi tìm hiểu bài viết này, mình nhận ra rằng trong nhiều trường hợp, chỉ vài phút chậm trễ cũng có thể khiến rủi ro bảo mật tăng lên đáng kể.
+
+Nếu hệ thống có thể tự động:
+
+- Thu hồi Access Key bị lộ.
+- Đóng Security Group mở Internet.
+- Khôi phục Bucket Policy.
+- Cô lập EC2 nghi ngờ bị tấn công.
+
+thì thời gian phản ứng sẽ được rút ngắn từ vài phút xuống chỉ còn vài giây.
+
+Đó cũng là giá trị lớn nhất của mô hình **Security Response Automation**.
+
+---
+
+## Điều mình học được
+
+Sau khi đọc bài blog này, mình rút ra một số điểm đáng chú ý.
+
+Thứ nhất, việc phát hiện sự cố bảo mật thôi là chưa đủ. Điều quan trọng hơn là xây dựng khả năng phản ứng tự động để giảm thời gian xử lý và hạn chế rủi ro.
+
+Thứ hai, kiến trúc **event-driven** giúp hệ thống chỉ hoạt động khi có sự kiện phát sinh, vừa tối ưu chi phí vừa giúp việc mở rộng trở nên đơn giản hơn.
+
+Thứ ba, việc kết hợp **AWS CloudTrail**, **Amazon EventBridge**, **AWS Lambda** và **AWS Systems Manager** giúp xây dựng một pipeline bảo mật linh hoạt, có thể áp dụng cho rất nhiều tình huống khác nhau như:
+
+- Khắc phục Amazon S3 Bucket Public.
+- Đóng Security Group mở Internet.
+- Thu hồi IAM Access Key.
+- Cách ly Amazon EC2 nghi ngờ bị tấn công.
+- Xử lý AWS Security Hub Findings.
+- Khôi phục AWS CloudTrail khi bị vô hiệu hóa.
+
+Theo mình, đây là một kiến trúc rất thực tế và hoàn toàn có thể mở rộng để xử lý nhiều loại sự cố bảo mật khác nhau trong môi trường AWS.
+
+---
+
+## Kết luận
+
+Thông qua việc tìm hiểu bài viết trên AWS Security Blog, mình hiểu rõ hơn cách AWS kết hợp **AWS CloudTrail**, **Amazon EventBridge**, **AWS Lambda**, **AWS Systems Manager**, **Amazon SNS**, **Amazon GuardDuty** và **AWS Config** để xây dựng một hệ thống **Security Response Automation** hoàn toàn tự động.
+
+Điều mình đánh giá cao nhất ở kiến trúc này là khả năng phát hiện và phản ứng gần như theo thời gian thực, giúp giảm sự phụ thuộc vào thao tác thủ công, nâng cao hiệu quả vận hành và tăng cường mức độ bảo mật cho toàn bộ hệ thống.
+
+Trong thời gian tới, mình muốn thử triển khai lại kiến trúc này bằng cách kết hợp **Amazon EventBridge**, **AWS Lambda** và **AWS Systems Manager Automation** để hiểu sâu hơn cách các dịch vụ AWS phối hợp với nhau trong một hệ thống bảo mật thực tế.

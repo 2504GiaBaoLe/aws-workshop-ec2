@@ -5,27 +5,23 @@ weight: 5
 chapter: false
 pre: " <b> 5. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
 
-# Secure Hybrid Access to S3 using VPC Endpoints
+#### Introduction to Mimi Jewelry E-commerce Project
 
-#### Overview
+- **Mimi Jewelry E-commerce Project** is an online shopping website built using the serverless model on AWS. The project focuses on deploying an e-commerce application with essential features such as product browsing, login, cart management, order placement, online payment, order management, and product image upload.
 
-**AWS PrivateLink** provides private connectivity to AWS services from VPCs and your on-premises networks, without exposing your traffic to the Public Internet.
+- The project architecture uses AWS managed services and serverless services to reduce manual server management. Instead of deploying the system on EC2 or managing servers manually, the project uses **Amazon S3, Amazon CloudFront, Amazon Cognito, Amazon API Gateway, AWS Lambda, Amazon DynamoDB, Amazon EventBridge, Amazon CloudWatch, Amazon SNS, AWS IAM, AWS SAM, and AWS CloudFormation**.
 
-In this lab, you will learn how to create, configure, and test VPC endpoints that enable your workloads to reach AWS services without traversing the Public Internet.
+- The project also integrates **ZaloPay Sandbox** to simulate the online payment process. In addition, the system includes background tasks such as checking expired unpaid orders, refund reconciliation, and sending alerts through CloudWatch Alarm combined with SNS.
 
-You will create two types of endpoints to access Amazon S3: a Gateway VPC endpoint, and an Interface VPC endpoint. These two types of VPC endpoints offer different benefits depending on if you are accessing Amazon S3 from the cloud or your on-premises location
-+ **Gateway** - Create a gateway endpoint to send traffic to Amazon S3 or DynamoDB using private IP addresses.You route traffic from your VPC to the gateway endpoint using route tables.
-+ **Interface** - Create an interface endpoint to send traffic to endpoint services that use a Network Load Balancer to distribute traffic. Traffic destined for the endpoint service is resolved using DNS.
+- The main objective of this project is to build an e-commerce system that can be deployed on AWS, is scalable, easy to operate, includes monitoring, supports CI/CD, and follows a production-like architecture.
 
 #### Content
 
 1. [Workshop overview](5.1-Workshop-overview)
 2. [Prerequiste](5.2-Prerequiste/)
-3. [Access S3 from VPC](5.3-S3-vpc/)
-4. [Access S3 from On-premises](5.4-S3-onprem/)
-5. [VPC Endpoint Policies (Bonus)](5.5-Policy/)
-6. [Clean up](5.6-Cleanup/)
+3. [Backend deployment](5.3-Backend-deployment/)
+4. [Frontend deployment](5.4-Fronten-deployment/)
+5. [Authentication](5.5-Authentication/)
+6. [Product management](5.6-Product-management/)
+7. [Clean up](5.7-Cleanup/)

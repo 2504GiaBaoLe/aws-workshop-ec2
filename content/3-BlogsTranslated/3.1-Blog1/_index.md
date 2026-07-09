@@ -5,122 +5,148 @@ weight: 1
 chapter: false
 pre: " <b> 3.1. </b> "
 ---
+
 {{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
+⚠️ **Note:** The content below is based on my own research and understanding of Amazon CloudWatch. It represents my personal learning notes and perspective and should not be considered official AWS documentation.
 {{% /notice %}}
 
-# Getting Started with Healthcare Data Lakes: Using Microservices
+# Don't Just Enable CloudWatch and Leave It There
+## Turning Monitoring into a Proactive Shield for Your System
 
-Data lakes can help hospitals and healthcare facilities turn data into business insights, maintain business continuity, and protect patient privacy. A **data lake** is a centralized, managed, and secure repository to store all your data, both in its raw and processed forms for analysis. Data lakes allow you to break down data silos and combine different types of analytics to gain insights and make better business decisions.
+While learning about **Amazon CloudWatch**, I realized that many people view CloudWatch simply as a tool for monitoring CPU utilization or sending email notifications when a server encounters issues. However, after reading the documentation and exploring the service in greater depth, I discovered that CloudWatch is capable of much more than that.
 
-This blog post is part of a larger series on getting started with setting up a healthcare data lake. In my final post of the series, *“Getting Started with Healthcare Data Lakes: Diving into Amazon Cognito”*, I focused on the specifics of using Amazon Cognito and Attribute Based Access Control (ABAC) to authenticate and authorize users in the healthcare data lake solution. In this blog, I detail how the solution evolved at a foundational level, including the design decisions I made and the additional features used. You can access the code samples for the solution in this Git repo for reference.
+When **Metrics**, **Logs**, **Dashboards**, and **Alarms** are combined effectively, CloudWatch becomes more than just a monitoring tool—it evolves into a proactive observability platform capable of detecting issues before end users even notice them.
 
----
+## Architecture Overview
 
-## Architecture Guidance
+The following figure illustrates how Amazon CloudWatch collects Metrics, Logs, and Events from multiple AWS services before triggering alarms and automated actions.
 
-The main change since the last presentation of the overall architecture is the decomposition of a single service into a set of smaller services to improve maintainability and flexibility. Integrating a large volume of diverse healthcare data often requires specialized connectors for each format; by keeping them encapsulated separately as microservices, we can add, remove, and modify each connector without affecting the others. The microservices are loosely coupled via publish/subscribe messaging centered in what I call the “pub/sub hub.”
-
-This solution represents what I would consider another reasonable sprint iteration from my last post. The scope is still limited to the ingestion and basic parsing of **HL7v2 messages** formatted in **Encoding Rules 7 (ER7)** through a REST interface.
-
-**The solution architecture is now as follows:**
-
-> *Figure 1. Overall architecture; colored boxes represent distinct services.*
+<img src="/images/3-Blog/cloudwatch-overview.jpg"
+     alt="Amazon CloudWatch Overview"
+     style="max-width:100%;height:auto;">
 
 ---
 
-While the term *microservices* has some inherent ambiguity, certain traits are common:  
-- Small, autonomous, loosely coupled  
-- Reusable, communicating through well-defined interfaces  
-- Specialized to do one thing well  
-- Often implemented in an **event-driven architecture**
+## What Is Amazon CloudWatch?
 
-When determining where to draw boundaries between microservices, consider:  
-- **Intrinsic**: technology used, performance, reliability, scalability  
-- **Extrinsic**: dependent functionality, rate of change, reusability  
-- **Human**: team ownership, managing *cognitive load*
+Amazon CloudWatch is AWS's **Monitoring and Observability** service.
 
----
+Its primary responsibility is collecting operational data from various AWS services, including:
 
-## Technology Choices and Communication Scope
+- Amazon EC2
+- AWS Lambda
+- Amazon RDS
+- Amazon ECS
+- Amazon API Gateway
+- Amazon DynamoDB
+- And many others
 
-| Communication scope                       | Technologies / patterns to consider                                                        |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Within a single microservice              | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Between microservices in a single service | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Between services                          | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
+After collecting the data, CloudWatch can:
 
----
+- Store Metrics
+- Collect and centralize Logs
+- Visualize data through Dashboards
+- Trigger Alarms when abnormal system behavior is detected
 
-## The Pub/Sub Hub
+From my perspective, CloudWatch helps answer three essential questions:
 
-Using a **hub-and-spoke** architecture (or message broker) works well with a small number of tightly related microservices.  
-- Each microservice depends only on the *hub*  
-- Inter-microservice connections are limited to the contents of the published message  
-- Reduces the number of synchronous calls since pub/sub is a one-way asynchronous *push*
-
-Drawback: **coordination and monitoring** are needed to avoid microservices processing the wrong message.
+- How is the system performing?
+- Is there any issue occurring?
+- If so, how should the system respond?
 
 ---
 
-## Core Microservice
+## Don't Focus Only on CPU Utilization
 
-Provides foundational data and communication layer, including:  
-- **Amazon S3** bucket for data  
-- **Amazon DynamoDB** for data catalog  
-- **AWS Lambda** to write messages into the data lake and catalog  
-- **Amazon SNS** topic as the *hub*  
-- **Amazon S3** bucket for artifacts such as Lambda code
+This is one of the most common mistakes I have noticed among beginners using CloudWatch.
 
-> Only allow indirect write access to the data lake through a Lambda function → ensures consistency.
+Many teams create an alarm only when CPU utilization exceeds 80%.
 
----
+In reality, CPU usage represents only one aspect of the overall system health.
 
-## Front Door Microservice
+In my opinion, an effective monitoring dashboard should track multiple metrics simultaneously, including:
 
-- Provides an API Gateway for external REST interaction  
-- Authentication & authorization based on **OIDC** via **Amazon Cognito**  
-- Self-managed *deduplication* mechanism using DynamoDB instead of SNS FIFO because:  
-  1. SNS deduplication TTL is only 5 minutes  
-  2. SNS FIFO requires SQS FIFO  
-  3. Ability to proactively notify the sender that the message is a duplicate  
+- CPU Utilization
+- Memory Usage
+- Disk Space
+- Network In / Out
+- Request Count
+- Error Rate
+- Response Time (Latency)
+
+When these metrics are viewed together, identifying the root cause of an issue becomes much easier than simply knowing that "the server is slow."
 
 ---
 
-## Staging ER7 Microservice
+## Metrics Tell You What Happened, Logs Explain Why
 
-- Lambda “trigger” subscribed to the pub/sub hub, filtering messages by attribute  
-- Step Functions Express Workflow to convert ER7 → JSON  
-- Two Lambdas:  
-  1. Fix ER7 formatting (newline, carriage return)  
-  2. Parsing logic  
-- Result or error is pushed back into the pub/sub hub  
+After studying the AWS documentation, I found this distinction particularly valuable.
+
+Metrics indicate that something is wrong with the system.
+
+Logs explain **why** it happened.
+
+For example:
+
+- The Error Rate suddenly increases.
+- The Dashboard shows a spike in Latency.
+- CloudWatch Logs reveal that a database query timed out.
+
+By centralizing logs from Amazon EC2, AWS Lambda, and application services into a single location, troubleshooting becomes significantly faster than logging into individual servers via SSH.
 
 ---
 
-## New Features in the Solution
+## Alarms Are More Than Email Notifications
 
-### 1. AWS CloudFormation Cross-Stack References
-Example *outputs* in the core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+Initially, I believed that CloudWatch Alarms were only useful for sending email notifications.
+
+After learning more, I realized that CloudWatch Alarms can trigger many automated actions, such as:
+
+- Sending email notifications through Amazon SNS.
+- Automatically scaling Amazon EC2 instances using Auto Scaling.
+- Invoking AWS Lambda functions.
+- Executing AWS Systems Manager Automation runbooks.
+
+These capabilities allow the system to respond almost immediately whenever an issue is detected.
+
+---
+
+## A Practical Scenario
+
+Imagine an e-commerce website preparing for a major Flash Sale event.
+
+The number of visitors increases dramatically.
+
+CloudWatch detects:
+
+- High CPU Utilization.
+- Increased Request Latency.
+- A growing Error Rate.
+
+Immediately afterward:
+
+- A CloudWatch Alarm is triggered.
+- Auto Scaling launches additional Amazon EC2 instances.
+- The Dashboard updates in real time.
+- Amazon SNS sends notifications to the operations team.
+
+In my opinion, this represents the true value of proactive monitoring.
+
+Without CloudWatch, customers might become the first people to discover that the website is experiencing problems.
+
+---
+
+## What I Learned
+
+After studying Amazon CloudWatch, I realized that it is much more than a resource monitoring tool.
+
+When combined with:
+
+- Metrics
+- Logs
+- Dashboards
+- Alarms
+
+CloudWatch becomes a proactive monitoring platform capable of detecting issues early, responding automatically, and significantly reducing incident response time.
+
+From my perspective, effective monitoring is not about discovering that the system has already failed—it is about identifying and resolving problems **before users even notice them**.

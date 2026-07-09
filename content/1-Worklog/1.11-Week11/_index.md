@@ -1,57 +1,48 @@
 ---
 title: "Week 11 Worklog"
 date: 2024-01-01
-weight: 2
+weight: 11
 chapter: false
 pre: " <b> 1.11. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
+{{% notice warning %}}
+⚠️ **Note:** The following information is for reference purposes only. Please **do not copy it verbatim** into your own report, including this warning.
 {{% /notice %}}
-
 
 ### Week 11 Objectives:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Learn advanced security services on AWS.
+* Understand the purpose of AWS WAF and AWS Shield.
+* Learn how AWS Secrets Manager securely stores sensitive information.
+* Explore AWS Certificate Manager (ACM) and SSL/TLS certificates.
+* Practice building a more secure environment for a web application.
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
 
+| Day | Task | Start Date | Completion Date | Reference Material |
+| --- | ---- | ---------- | --------------- | ------------------ |
+| 2 | - Learn AWS security best practices <br> - Understand common web security threats | 06/29/2026 | 06/30/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| 3 | - Learn AWS WAF <br> - Learn AWS Shield <br> - Understand how they protect web applications | 07/30/2026 | 07/30/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| 4 | - Learn AWS Secrets Manager <br> - Understand how to store and manage application secrets securely | 07/01/2026 | 07/01/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| 5 | - Learn AWS Certificate Manager (ACM) <br> - Understand SSL/TLS certificates <br> - Practice requesting a certificate | 07/02/2026 | 07/02/2026 | <https://cloudjourney.awsstudygroup.com/> |
+| 6 | - **Hands-on:** <br>&emsp; + Configure AWS WAF rules <br>&emsp; + Store secrets using Secrets Manager <br>&emsp; + Use ACM certificates for a sample application | 07/03/2026 | 07/05/2026 | <https://cloudjourney.awsstudygroup.com/> |
 
 ### Week 11 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Learned the importance of security when deploying applications on AWS.
 
-* Successfully created and configured an AWS Free Tier account.
+* Explored AWS WAF and understood how web access rules can help filter unwanted requests before they reach an application.
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+* Learned the purpose of AWS Shield and understood how it helps protect applications against DDoS attacks.
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+* Explored AWS Secrets Manager and learned how sensitive information such as passwords and API keys can be stored securely instead of placing them directly in application code.
 
-* Used AWS CLI to perform basic operations such as:
+* Learned the basic concepts of AWS Certificate Manager (ACM) and understood the role of SSL/TLS certificates in securing HTTPS connections.
 
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
+* Practiced requesting and managing certificates using AWS Certificate Manager.
 
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* Compared the purposes of AWS WAF, AWS Shield, Secrets Manager, and ACM, and understood that each service focuses on a different aspect of application security.
+
+* Practiced applying basic security settings to a sample web application and observed how AWS security services work together.
+
+* After completing the hands-on exercises, I gained a better understanding of the basic security services available on AWS and when they are commonly used.

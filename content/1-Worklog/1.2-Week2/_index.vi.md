@@ -1,59 +1,58 @@
 ---
 title: "Worklog Tuần 2"
 date: 2024-01-01
-weight: 1
+weight: 2
 chapter: false
 pre: " <b> 1.2. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
+
 
 
 ### Mục tiêu tuần 2:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Hoàn tất việc tạo tài khoản AWS và làm quen với quy trình làm việc với AWS Support.
+* Củng cố kiến thức về các nhóm dịch vụ cơ bản của AWS.
+* Thành thạo hơn trong việc sử dụng AWS Management Console và AWS CLI.
+* Hoàn thành các nhiệm vụ đầu tiên của AWS Study Group để nhận AWS Promotional Credits.
+* Thực hành triển khai và quản lý các dịch vụ AWS cơ bản như Amazon EC2, Amazon RDS, AWS Lambda, Amazon Bedrock và AWS Budgets.
+* Nâng cao kỹ năng thực hành và làm quen với quy trình triển khai tài nguyên trên nền tảng AWS.
 
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Tạo thành công tài khoản AWS sau khi đã gửi ticket suppot, học được cách viết ticket suppot.                                                                                           | 27/04/2026   | 27/04/2026      |
+| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 28/04/2026   | 28/04/2026      | https://000001.awsstudygroup.com/ |
+| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 29/04/2026   | 29/04/2026      | <https://cloudjourney.awsstudygroup.com/> |
+| 5   | - Tìm hiểu từ Task 1 tới Task 5 để kiếm được $200 credit free, cũng như là các dịch vụ cơ bản đầu tiên của AWS >                  | 30/04/2026   | 30/04/2026      | https://000001.awsstudygroup.com/vi/4-h%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-chi-ti%E1%BA%BFt-5-nhi%E1%BB%87m-v%E1%BB%A5-ki%E1%BA%BFm-ti%E1%BB%81n/ |
+| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Amazon Bedrock Playground <br>&emsp; + Create Lambda Web App<br>&emsp;+ Set up AWS Budgets<br>&emsp; +Create RDS Database                                                                                        | 01/05/2026   | 01/05/2026      | https://000001.awsstudygroup.com/vi/4-h%C6%B0%E1%BB%9Bng-d%E1%BA%ABn-chi-ti%E1%BA%BFt-5-nhi%E1%BB%87m-v%E1%BB%A5-ki%E1%BA%BFm-ti%E1%BB%81n/ |
 
 
 ### Kết quả đạt được tuần 2:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
+Sau tuần thứ hai của kỳ thực tập, mình đã đạt được những kết quả sau:
+
+* Tạo thành công tài khoản AWS sau khi gửi yêu cầu đến AWS Support và hiểu được quy trình tạo, theo dõi cũng như trao đổi thông qua Support Ticket.
+
+* Củng cố kiến thức về các nhóm dịch vụ chính của AWS như:
   * Compute
   * Storage
-  * Networking 
+  * Networking
   * Database
+  * Security
   * ...
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+* Làm quen và sử dụng thành thạo hơn AWS Management Console và AWS CLI trong quá trình thực hành.
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
+* Hoàn thành 5 nhiệm vụ đầu tiên của AWS Study Group để nhận AWS Promotional Credits, đồng thời hiểu rõ hơn về cách sử dụng các dịch vụ AWS cơ bản.
 
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
+* Thực hành triển khai và sử dụng một số dịch vụ AWS, bao gồm:
+  * Khởi tạo và quản lý Amazon EC2 Instance.
+  * Trải nghiệm Amazon Bedrock Playground để tìm hiểu về dịch vụ Generative AI của AWS.
+  * Xây dựng ứng dụng web serverless với AWS Lambda.
+  * Thiết lập AWS Budgets để theo dõi và kiểm soát chi phí sử dụng dịch vụ.
+  * Tạo và cấu hình cơ sở dữ liệu Amazon RDS.
 
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
+* Nâng cao kỹ năng triển khai, cấu hình và quản lý các tài nguyên trên AWS thông qua các bài thực hành.
 
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
+* Có thêm kinh nghiệm trong việc kết hợp giữa lý thuyết và thực hành, đồng thời hiểu rõ hơn về quy trình triển khai các dịch vụ cơ bản trên nền tảng AWS.
 

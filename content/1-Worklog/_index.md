@@ -14,26 +14,26 @@ pre: " <b> 1. </b> "
 
 Typically, and as a standard, a worklog is carried out over about 3 months (throughout the internship period) with weekly contents as follows:
 
-**Week 1:** [Getting familiar with AWS and basic AWS services](1.1-week1/)
+**Week 1:** [Getting familiar with the internship environment and the members of the First Cloud Journey (FCJ) program](1.1-week1/)
 
-**Week 2:** [Doing task A...](1.2-week2/)
+**Week 2:** [Completing AWS account setup and becoming familiar with the AWS Support workflow](1.2-week2/)
 
-**Week 3:** [Doing task B...](1.3-week3/)
+**Week 3:** [Learning the fundamental concepts of AWS Networking](1.3-week3/)
 
-**Week 4:** [Doing task C...](1.4-week4/)
+**Week 4:** [Understanding the fundamental concepts of Identity and Security on AWS](1.4-week4/)
 
-**Week 5:** [Doing task D...](1.5-week5/)
+**Week 5:** [Learning the fundamentals of Serverless Computing on AWS](1.5-week5/)
 
-**Week 6:** [Doing task E...](1.6-week6/)
+**Week 6:** [Exploring Amazon SQS, Amazon SNS, Amazon EventBridge, and AWS Step Functions](1.6-week6/)
 
-**Week 7:** [Doing task G...](1.7-week7/)
+**Week 7:** [Learning the fundamentals of Containers and Container Orchestration](1.7-week7/)
 
-**Week 8:** [Doing task H...](1.8-week8/)
+**Week 8:** [Exploring AWS monitoring and logging services](1.8-week8/)
 
-**Week 9:** [Doing task I...](1.9-week9/)
+**Week 9:** [Learning advanced networking services on AWS](1.9-week9/)
 
-**Week 10:** [Doing task L...](1.10-week10/)
+**Week 10:** [Understanding the fundamentals of DevOps and CI/CD on AWS](1.10-week10/)
 
-**Week 11:** [Doing task M...](1.11-week11/)
+**Week 11:** [Exploring advanced security services on AWS](1.11-week11/)
 
-**Week 12:** [Doing task N...](1.12-week12/)
+**Week 12:** [Learning AWS cost optimization techniques and completing the final project](1.12-week12/)
