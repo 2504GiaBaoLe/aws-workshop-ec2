@@ -6,121 +6,45 @@ chapter: false
 pre: " <b> 4.1. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy it verbatim** into your report, including this warning.
-{{% /notice %}}
+# AWS Enterprise Cloud Architectures & Industry Application – Event Reflection
 
-# Summary Report: “GenAI-powered App-DB Modernization workshop”
+### Purpose of the Event
 
-### Event Objectives
+- Gain an overview of the current technology talent market and Cloud Computing landscape in Vietnam.
+- Learn about real-world enterprise architecture models shared by industry experts.
+- Develop a project-oriented mindset by focusing on practical implementation rather than only theoretical knowledge.
+- Explore how Artificial Intelligence (AI) can be applied to software development and system optimization.
 
-- Share best practices in modern application design
-- Introduce Domain-Driven Design (DDD) and event-driven architecture
-- Provide guidance on selecting the right compute services
-- Present AI tools to support the development lifecycle
+### Technology Market & Workforce Requirements
 
-### Speakers
+- **Current situation:** Companies today have higher expectations for Fresher and Junior engineers, requiring them to contribute immediately instead of relying on extensive training.
+- **Industry expectations:** Developers are expected not only to write code but also to understand real-world production environments, operational workflows, and how to solve practical business problems.
+- **AWS investment:** AWS is focusing on three key pillars in Vietnam: **Local Talent**, **Infrastructure** (such as data centers and CDN), and **Future Skills**.
 
-- **Jignesh Shah** – Director, Open Source Databases
-- **Erica Liu** – Sr. GTM Specialist, AppMod
-- **Fabrianne Effendi** – Assc. Specialist SA, Serverless Amazon Web Services
+### Architecture Mindset & Application Development
 
-### Key Highlights
+- **Project mindset:** Personal or side projects should go beyond building a simple website. They should consider scalability, security, AI/chatbot integration, and solving real business challenges across major industries.
+- **System DNA:** Every platform, whether related to data or backend development, follows a common architectural framework. Engineers should understand the foundational principles rather than memorizing individual tools.
+- **Architecture framework:** The **AWS Well-Architected Framework** should be used as a guideline for designing and evaluating cloud systems.
 
-#### Identifying the drawbacks of legacy application architecture
+#### The Role of AI in the Modern Era
 
-- Long product release cycles → Lost revenue/missed opportunities  
-- Inefficient operations → Reduced productivity, higher costs  
-- Non-compliance with security regulations → Security breaches, loss of reputation  
+- **AI as a development assistant:** Tools such as **Amazon Q** can help scan source code, review system architecture, and generate development templates.
+- **Adaptability:** AI is not a replacement for software engineers but a productivity multiplier. Engineers should develop strong prompt engineering skills and always verify AI-generated information before using it.
 
-#### Transitioning to modern application architecture – Microservices
+#### Essential Skills & Mindsets
 
-Migrating to a modular system — each function is an **independent service** communicating via **events**, built on three core pillars:
+- **Six important mental models:** Teamwork, Hands-on practice, Builder mindset, Problem-solving, Resilience, and Business understanding.
+- Understand that technology is only a tool; the ultimate goal is to create business value.
+- Communication should be considered a technical skill because it helps align business objectives with technical implementation.
 
-- **Queue Management**: Handle asynchronous tasks  
-- **Caching Strategy**: Optimize performance  
-- **Message Handling**: Flexible inter-service communication  
+#### Personal Takeaways
 
-#### Domain-Driven Design (DDD)
+- Always start by understanding the customer's or business's pain points before choosing a technology solution.
+- Since technology evolves rapidly, continuous learning and maintaining a resilient mindset are essential for long-term career growth.
+- Continue developing personal projects using production-ready standards, apply architectural frameworks to improve system quality, and actively learn from the **First Cloud AI Journey (FCJ)** community.
 
-- **Four-step method**: Identify domain events → arrange timeline → identify actors → define bounded contexts  
-- **Bookstore case study**: Demonstrates real-world DDD application  
-- **Context mapping**: 7 patterns for integrating bounded contexts  
+#### Photos from the Event
 
-#### Event-Driven Architecture
-
-- **3 integration patterns**: Publish/Subscribe, Point-to-point, Streaming  
-- **Benefits**: Loose coupling, scalability, resilience  
-- **Sync vs async comparison**: Understanding the trade-offs  
-
-#### Compute Evolution
-
-- **Shared Responsibility Model**: EC2 → ECS → Fargate → Lambda  
-- **Serverless benefits**: No server management, auto-scaling, pay-for-value  
-- **Functions vs Containers**: Criteria for appropriate choice  
-
-#### Amazon Q Developer
-
-- **SDLC automation**: From planning to maintenance  
-- **Code transformation**: Java upgrade, .NET modernization  
-- **AWS Transform agents**: VMware, Mainframe, .NET migration  
-
-### Key Takeaways
-
-#### Design Mindset
-
-- **Business-first approach**: Always start from the business domain, not the technology  
-- **Ubiquitous language**: Importance of a shared vocabulary between business and tech teams  
-- **Bounded contexts**: Identifying and managing complexity in large systems  
-
-#### Technical Architecture
-
-- **Event storming technique**: Practical method for modeling business processes  
-- Use **event-driven communication** instead of synchronous calls  
-- **Integration patterns**: When to use sync, async, pub/sub, streaming  
-- **Compute spectrum**: Criteria for choosing between VM, containers, and serverless  
-
-#### Modernization Strategy
-
-- **Phased approach**: No rushing — follow a clear roadmap  
-- **7Rs framework**: Multiple modernization paths depending on the application  
-- **ROI measurement**: Cost reduction + business agility  
-
-### Applying to Work
-
-- **Apply DDD** to current projects: Event storming sessions with business teams  
-- **Refactor microservices**: Use bounded contexts to define service boundaries  
-- **Implement event-driven patterns**: Replace some sync calls with async messaging  
-- **Adopt serverless**: Pilot AWS Lambda for suitable use cases  
-- **Try Amazon Q Developer**: Integrate into the dev workflow to boost productivity  
-
-### Event Experience
-
-Attending the **“GenAI-powered App-DB Modernization”** workshop was extremely valuable, giving me a comprehensive view of modernizing applications and databases using advanced methods and tools. Key experiences included:
-
-#### Learning from highly skilled speakers
-- Experts from AWS and major tech organizations shared **best practices** in modern application design.  
-- Through real-world case studies, I gained a deeper understanding of applying **DDD** and **Event-Driven Architecture** to large projects.  
-
-#### Hands-on technical exposure
-- Participating in **event storming** sessions helped me visualize how to **model business processes** into domain events.  
-- Learned how to **split microservices** and define **bounded contexts** to manage large-system complexity.  
-- Understood trade-offs between **synchronous and asynchronous communication** and integration patterns like **pub/sub, point-to-point, streaming**.  
-
-#### Leveraging modern tools
-- Explored **Amazon Q Developer**, an AI tool for SDLC support from planning to maintenance.  
-- Learned to **automate code transformation** and pilot serverless with **AWS Lambda** to improve productivity.  
-
-#### Networking and discussions
-- The workshop offered opportunities to exchange ideas with experts, peers, and business teams, enhancing the **ubiquitous language** between business and tech.  
-- Real-world examples reinforced the importance of the **business-first approach** rather than focusing solely on technology.  
-
-#### Lessons learned
-- Applying DDD and event-driven patterns reduces **coupling** while improving **scalability** and **resilience**.  
-- Modernization requires a **phased approach** with **ROI measurement**; rushing the process can be risky.  
-- AI tools like Amazon Q Developer can significantly **boost productivity** when integrated into the current workflow.  
-
-#### Some event photos
-*Add your event photos here*  
-
-> Overall, the event not only provided technical knowledge but also helped me reshape my thinking about application design, system modernization, and cross-team collaboration.
+<img src="/images/event1.jpg"
+     style="max-width:100%;height:auto;">

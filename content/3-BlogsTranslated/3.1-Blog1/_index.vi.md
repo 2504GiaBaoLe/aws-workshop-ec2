@@ -6,9 +6,7 @@ chapter: false
 pre: " <b> 3.1. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Lưu ý:** Nội dung dưới đây được viết dựa trên quá trình tự nghiên cứu và tìm hiểu Amazon CloudWatch. Đây là ghi chú học tập và góc nhìn cá nhân, không phải tài liệu chính thức của AWS.
-{{% /notice %}}
+
 
 # Đừng chỉ bật CloudWatch rồi để đó
 ## Biến Monitoring thành "lá chắn" chủ động cho hệ thống

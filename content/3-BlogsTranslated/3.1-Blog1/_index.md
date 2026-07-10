@@ -6,9 +6,7 @@ chapter: false
 pre: " <b> 3.1. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Note:** The content below is based on my own research and understanding of Amazon CloudWatch. It represents my personal learning notes and perspective and should not be considered official AWS documentation.
-{{% /notice %}}
+
 
 # Don't Just Enable CloudWatch and Leave It There
 ## Turning Monitoring into a Proactive Shield for Your System
